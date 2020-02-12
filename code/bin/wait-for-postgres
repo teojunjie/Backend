@@ -1,0 +1,5 @@
+#!/bin/bash -e
+until nc -z $1 5432; do
+    echo "$(date): Waiting for Postgres on $1..."
+    sleep 1
+done
