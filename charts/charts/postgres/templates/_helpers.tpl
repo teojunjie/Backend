@@ -47,6 +47,6 @@ Selector labels
 {{- define "postgres.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "postgres.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-env: {{ .Values.env | default "local" | quote }}
+env: {{ .Values.global.env | default "local" | quote }}
 {{- end -}}
 

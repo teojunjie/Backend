@@ -6,8 +6,10 @@ metadata:
     {{- include "postgres.labels" . | nindent 4 }}
 spec:
   accessModes:
-    - ReadWriteMany
+  - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
+{{ if eq .Values.global.env "local" }}
   volumeName: {{ include "postgres.fullname" . }}
+{{ end }}

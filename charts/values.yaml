@@ -1,2 +1,3 @@
-repository: framework
-tag: latest
+global:
+  repository: us.gcr.io/bubbly-delight-268221/framework:testing-gcp-1812
+  env: prod

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image.repository }}"
+        image: "{{ .Values.global.repository }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env: 
         - name: POSTGRES_HOST
