@@ -1,0 +1,32 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+build:
+  tagPolicy:
+    gitCommit: {}
+  artifacts:
+  - image: framework
+    context: .
+    sync:
+      infer:
+      - 'base_app/*.py'
+deploy:
+  helm:
+    releases:
+    - name: skaffold-helm
+      chartPath: charts
+      namespace: default
+      #wait: true
+      skipBuildDependencies: false 
+      values:
+        repository: framework
+        "global.repository": framework
+        "framework.repository": framework
+      #recreatePods will pass --recreate-pods to helm upgrade
+      #recreatePods: true
+      #overrides builds an override values.yaml file to run with the helm deploy
+      #overrides:
+      # some:
+      #   key: someValue
+      #setValues get appended to the helm deploy with --set.
+      #setValues:
+        #some.key: someValue

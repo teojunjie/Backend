@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "flower.fullname" . }}
+  labels:
+    {{- include "flower.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "flower.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "flower.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.global.repository }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ['celery', 'flower', '-A', 'base_app' , 'flower']
+        ports:
+        - containerPort: 5555
+          protocol: TCP
+        env:
+        - name: REDIS_HOST
+          value: redis-service
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
