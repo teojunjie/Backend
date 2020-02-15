@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "framework.fullname" . }}
+  name: {{ include "trippin.fullname" . }}
   labels:
-    {{- include "framework.labels" . | nindent 4 }}
+    {{- include "trippin.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "framework.selectorLabels" . | nindent 6 }}
+      {{- include "trippin.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "framework.selectorLabels" . | nindent 8 }}
+        {{- include "trippin.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - name: {{ .Chart.Name }}
