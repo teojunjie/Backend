@@ -11,4 +11,8 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
+<<<<<<< HEAD
     {{- include "trippin.selectorLabels" . | nindent 4 }}
+=======
+    {{- include "framework.selectorLabels" . | nindent 4 }}
+>>>>>>> be7c19e19bf1fb9cddb43346c3c12a64623f9f9c
