@@ -8,7 +8,7 @@ build:
     context: .
     sync:
       infer:
-      - 'base_app/*.py'
+      - 'code/*'
 deploy:
   helm:
     releases:
