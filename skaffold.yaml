@@ -4,7 +4,7 @@ build:
   tagPolicy:
     gitCommit: {}
   artifacts:
-  - image: framework
+  - image: trippin
     context: .
     sync:
       infer:
@@ -18,15 +18,7 @@ deploy:
       #wait: true
       skipBuildDependencies: false 
       values:
-        repository: framework
-        "global.repository": framework
-        "framework.repository": framework
-      #recreatePods will pass --recreate-pods to helm upgrade
-      #recreatePods: true
-      #overrides builds an override values.yaml file to run with the helm deploy
-      #overrides:
-      # some:
-      #   key: someValue
-      #setValues get appended to the helm deploy with --set.
-      #setValues:
-        #some.key: someValue
+        repository: trippin
+        "global.repository": trippin
+        "trippin.repository": trippin
+  

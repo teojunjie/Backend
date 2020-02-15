@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "framework.name" -}}
+{{- define "trippin.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "framework.fullname" -}}
+{{- define "trippin.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,15 +27,15 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "framework.chart" -}}
+{{- define "trippin.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "framework.labels" -}}
-{{ include "framework.selectorLabels" . }}
+{{- define "trippin.labels" -}}
+{{ include "trippin.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -44,8 +44,8 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{/*
 Selector labels
 */}}
-{{- define "framework.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "framework.name" . }}
+{{- define "trippin.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "trippin.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 env: {{ .Values.global.env | default "local" | quote }}
 {{- end -}}

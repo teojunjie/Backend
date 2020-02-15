@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: framework
+  name: trippin
   labels:
-    {{- include "framework.labels" . | nindent 4 }}
+    {{- include "trippin.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -11,4 +11,4 @@ spec:
       targetPort: 8080
       protocol: TCP
   selector:
-    {{- include "framework.selectorLabels" . | nindent 4 }}
+    {{- include "trippin.selectorLabels" . | nindent 4 }}
