@@ -33,8 +33,5 @@ spec:
         volumeMounts:
         - name: postgres-volume-mount
           mountPath: /var/lib/busybox
-      initContainers:
-      - name: wait-for-postgres
-        command: ['bash', '-c', 'while [[ $1 -ne 0 ]]; do echo "waiting for postgres to be up..."; nc -z localhost 5432; done']
     {{- include "charts.volume" . | nindent 6 }}
        

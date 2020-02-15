@@ -1,4 +1,4 @@
-apiVersion: v2
+apiVersion: v1
 name: trippin
 description: A Helm chart for Kubernetes
 
