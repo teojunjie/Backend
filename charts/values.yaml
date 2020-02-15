@@ -1,0 +1,3 @@
+global:
+  repository: us.gcr.io/bubbly-delight-268221/framework:testing-gcp-1136
+  env: prod

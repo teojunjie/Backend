@@ -1,0 +1,25 @@
+# Default values for postgres.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: postgres
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5432
+
+credentials:
+  user: ZGphbmdv
+  password: MWEyNmQxZzI2ZDFnZXNiP2U3ZGVzYj9lN2Q=
+
+resources: 
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

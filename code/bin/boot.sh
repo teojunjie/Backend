@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 echo 'Running migrations'
 python manage.py migrate
 echo 'Done running migrations'

@@ -1,0 +1,11 @@
+# Default values for redis.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+beat:
+  replicaCount: 1
+
+worker:
+  replicaCount: 1
+
+image:
+  pullPolicy: IfNotPresent

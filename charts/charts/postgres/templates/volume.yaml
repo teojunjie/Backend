@@ -1,0 +1,16 @@
+{{ if eq .Values.global.env "local" }}
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ include "postgres.fullname" . }}
+  labels:
+    {{- include "postgres.labels" . | nindent 4 }}
+spec:
+  capacity:
+    storage: 2Gi
+  storageClassName: standard
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: /data/postgres-pv
+{{ end }}
