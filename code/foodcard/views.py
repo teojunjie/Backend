@@ -6,7 +6,11 @@ from foodcard.models import (
   Review, 
   Tag
 )
-from foodcard.serializers import FoodCardSerializer
+from foodcard.serializers import (
+  FoodCardSerializer,
+  TagSerializer,
+  ReviewSerializer
+)
 
 import random as rand
 import json
@@ -30,7 +34,6 @@ class FoodCardView(APIView):
       title = jsonObj.get('name')
       category = jsonObj.get('category')
       tags = jsonObj.get('tags')
-      print(lat, lng, title, category, tags)
 
       full_geoencoding_url = geoencoding_url.format(str(lat), str(lng), apikey)
       
@@ -38,7 +41,6 @@ class FoodCardView(APIView):
       location_res = json.loads(location_content.text).get('results')
       location_match = ""
 
-      print(location_res)
       review_objects = []
       if len(location_res) >= 1:
         location_match = location_res[0].get('formatted_address')
@@ -48,13 +50,13 @@ class FoodCardView(APIView):
         places_res = json.loads(places_content.text)
 
         review_res = places_res.get('result')
-        print(full_places_url)
         reviews = review_res.get('reviews')
         if reviews == None:
           print('No reviews found')
           continue
 
-        card = FoodCard.objects.create(category=category, 
+        card = FoodCard.objects.create(
+          category=category, 
           dollar_sign=rand.randint(1, 3), 
           title=title, 
           location=location_match,
@@ -87,7 +89,8 @@ class FoodCardView(APIView):
           title=tag_title
         )
         t.save()
-      return Response(status=status.HTTP_201_CREATED)
+
+    return Response(status=status.HTTP_201_CREATED)
 
 
   def get(self, request, *args, **kwargs):
@@ -99,6 +102,25 @@ class FoodCardView(APIView):
 
     cards = []
     for card in food_cards:
+      tags = card.tags.all()
+      reviews = card.reviews.all()
+
+      tags_data = []
+      for tag in tags:
+        t = TagSerializer(tag)
+        tags_data.append(t.data)
+      
+      reviews_data = []
+      for review in reviews:
+        r = ReviewSerializer(review)
+        reviews_data.append(r.data)
+
       c = FoodCardSerializer(card)
-      cards.append(dict(data=c.data))
+      cards.append(
+        dict(
+          data=c.data,
+          reviews=reviews_data,
+          tags=tags_data
+        )
+      )
     return Response(data=cards, status=status.HTTP_200_OK)

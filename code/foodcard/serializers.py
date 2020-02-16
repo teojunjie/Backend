@@ -23,7 +23,6 @@ class FoodCardSerializer(ModelSerializer):
 
 class TagSerializer(ModelSerializer):
   title = CharField()
-  food_card = FoodCardSerializer
 
   class Meta:
     model = Tag
@@ -34,7 +33,6 @@ class ReviewSerializer(ModelSerializer):
   comment = CharField()
   username = CharField()
   rating = IntegerField()
-  food_card = FoodCardSerializer
 
   class Meta:
     model = Tag

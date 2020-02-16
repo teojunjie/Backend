@@ -1,4 +1,4 @@
-Django==3.0.3
+Django==2.2.4
 google-cloud-storage==1.25.0
 wheel==0.33.6
 gunicorn==20.0.4
@@ -11,3 +11,5 @@ redis==3.4.1
 celery-flower==1.0.1
 flower==0.9.3
 tornado>=4.2.0,<6.0.0
+djangorestframework==3.7.7
+requests==2.18.2

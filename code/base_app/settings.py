@@ -19,10 +19,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',  # <-- Here
     'user',
     'foodcard'
 )
+
+# Shell
+SHELL_PLUS = 'ipython'
 
 MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',

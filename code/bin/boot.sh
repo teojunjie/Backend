@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 echo 'setting up static files...'
 python manage.py collectstatic
 echo 'waiting for postgres to be up...'
