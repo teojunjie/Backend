@@ -27,13 +27,15 @@ class CategoryView(APIView):
             'image_url': image_url
         }
         
-        Category.objects.update_or_create(
+        category, _ = Category.objects.update_or_create(
             name=name,
             defaults=updates
         )
         
+        return Response(data=CategorySerializer(category).data, status=status.HTTP_200_OK)
+        
     def get(self, request, *args, **kwargs):
-        categories = Categories.objects.prefetch_related('types').all()
+        categories = Category.objects.prefetch_related('types').all()
         
         categories_data = []
         for category in categories:
@@ -59,10 +61,13 @@ class CategoryView(APIView):
         category_name = data.get('category_name')
         category_type_name = data.get('category_type_name')
         category_image_url = data.get('image_url')
-        
+
+        updates = {
+            'image_url': None
+        }        
         category, created = Category.objects.get_or_create(
             name=category_name,
-            image_url=None,
+            defaults=updates
         )
 
         updates = {
@@ -70,7 +75,7 @@ class CategoryView(APIView):
             'category': category
         }        
 
-        CategoryType.update_or_create(
+        CategoryType.objects.update_or_create(
             name=category_type_name,
             defaults=updates
         )
