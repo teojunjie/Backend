@@ -16,6 +16,7 @@ class FoodCardSerializer(ModelSerializer):
   location = CharField()
   latitude = CharField()
   longitude = CharField()
+  photo_reference = CharField()
 
   class Meta:
     model = FoodCard

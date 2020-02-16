@@ -1,7 +1,8 @@
 #!/bin/bash -e
 echo 'setting up static files...'
 python manage.py collectstatic
-echo 'waiting for postgres to be up...'
+echo 'making migrations...'
+python manage.py makemigrations
 
 echo 'Running migrations'
 python manage.py migrate

@@ -49,11 +49,15 @@ class FoodCardView(APIView):
         places_content = requests.get(full_places_url)
         places_res = json.loads(places_content.text)
 
-        review_res = places_res.get('result')
-        reviews = review_res.get('reviews')
-        if reviews == None:
-          print('No reviews found')
+        result_res = places_res.get('result')
+        reviews = result_res.get('reviews')
+        photos = result_res.get('photos')
+
+        if reviews == None or photos == None:
+          print('No reviews or photos found')
           continue
+
+        photo_ref = photos[0].get('photo_reference')
 
         card = FoodCard.objects.create(
           category=category, 
@@ -62,6 +66,7 @@ class FoodCardView(APIView):
           location=location_match,
           latitude=lat,
           longitude=lng,
+          photo_reference=photo_ref
         )
 
         r_cnt = 0
