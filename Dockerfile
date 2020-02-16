@@ -17,6 +17,6 @@ COPY ./code/requirements.txt ./
 RUN pip install -r requirements.txt
 COPY ./code /code
 
-RUN mkdir /static && chmod +x bin/boot.sh
+RUN mkdir /static && 
 
 CMD bin/boot.sh

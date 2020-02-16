@@ -18,6 +18,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',  # <-- Here
+    'user',
+    'foodcard'
 )
 
 MIDDLEWARE = (
@@ -73,7 +77,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_URL = 'http://storage.googleapis.com/trippin-bucket/static/'
+STATIC_URL = '/static/'
 
 
 STATIC_ROOT = 'static/'

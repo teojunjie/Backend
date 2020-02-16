@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+echo 'setting up static files...'
+python manage.py collectstatic
+echo 'waiting for postgres to be up...'
+
 echo 'Running migrations'
 python manage.py migrate
 echo 'Done running migrations'
