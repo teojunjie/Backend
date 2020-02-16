@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('user.urls')),
     url(r'^', include('foodcard.urls')),
+    url(r'^', include('category.urls'))
 ]
