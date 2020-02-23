@@ -13,3 +13,6 @@ flower==0.9.3
 tornado>=4.2.0,<6.0.0
 djangorestframework==3.7.7
 requests==2.18.2
+ipython==7.1.0
+mypy-extensions==0.4.1
+django-extensions==2.2.1
