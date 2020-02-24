@@ -1,0 +1,143 @@
+version: 2
+
+jobs:
+
+  # install dependencies
+  install-dep:
+    docker:
+      - image: circleci/python:3.7.4-stretch
+        user: root
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - cache-{{ .Branch }}-{{ checksum "Pipfile" }}
+      - run:
+          name: install dependencies
+          command: |
+            pip install --upgrade pip
+      - save_cache:
+          key: cache-{{ .Branch }}-{{ checksum "Pipfile" }}
+          paths:
+            - ~/.venv
+            - ~/.cache
+            - ~/.local/share/virtualenvs/
+            - /usr/local/bin
+            - /usr/local/lib/python3.7/site-packages
+
+  # Push Container to GCR
+  deploy-docker-image:
+    docker:
+      - image: circleci/python:3.7.4-stretch
+        user: root
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - cache-{{ .Branch }}-{{ checksum "Pipfile" }}
+      - run:
+          name: install google-cloud-sdk
+          command: |
+            # Add the Cloud SDK distribution URI as a package source
+            echo "deb http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            # Import the Google Cloud Platform public key
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            # Update the package list and install the Cloud SDK
+            sudo apt-get update && sudo apt-get install google-cloud-sdk -y
+      - run:
+          name: push docker image to GCR
+          command: |
+            chmod +x ./tasks/deploy_push_container.sh
+            ./tasks/deploy_push_container.sh
+
+  # Deploy to GKE
+  deploy-kubernetes:
+    docker:
+      - image: circleci/python:3.7.4-stretch
+        user: root
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - cache-{{ .Branch }}-{{ checksum "Pipfile" }}
+      - run:
+          name: install google-cloud-sdk
+          command: |
+            # Add the Cloud SDK distribution URI as a package source
+            echo "deb http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            # Import the Google Cloud Platform public key
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+            # Update the package list and install the Cloud SDK
+            sudo apt-get update && sudo apt-get install google-cloud-sdk -y
+      - run:
+          name: deploy to GKE
+          command: |
+            chmod +x ./tasks/deploy_kubernetes.sh
+            ./tasks/deploy_kubernetes.sh
+
+# filters
+filter_master_branch: &filter_master_branch
+  branches:
+    only: master
+filter_deployment_branch: &filter_deployment_branch
+  branches:
+    only: release
+branch_pr_filter: &branch_pr_filter
+  branches:
+    ignore:
+      - release
+      - master
+
+workflows:
+
+  version: 2
+
+  # workflow for normal branches
+  pr-flow:
+    jobs:
+      - install-dep:
+          filters: *branch_pr_filter
+      - deploy-docker-image:
+          requires:
+            - install-dep
+          filters: *branch_pr_filter
+          context: test
+      - deploy-kubernetes:
+          requires:
+            - deploy-docker-image
+          filters: *branch_pr_filter
+          context: test
+
+  # workflow for master
+  master-flow:
+    jobs:
+      - install-dep:
+          filters: *filter_master_branch
+      - deploy-docker-image:
+          requires:
+            - install-dep
+          context: staging
+          filters: *filter_master_branch
+      - deploy-kubernetes:
+          requires:
+            - deploy-docker-image
+          context: staging
+          filters: *filter_master_branch
+
+  # workflow for deployment
+  deployment-flow:
+    jobs:
+      - install-dep:
+          filters: *filter_deployment_branch
+      - deploy-docker-image:
+          requires:
+            - install-dep
+          context: prod
+          filters: *filter_deployment_branch
+      - deploy-kubernetes:
+          requires:
+            - deploy-docker-image
+          context: prod
+          filters: *filter_deployment_branch
