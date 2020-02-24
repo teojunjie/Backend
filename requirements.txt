@@ -1,0 +1,15 @@
+Django==2.2.4
+google-cloud-storage==1.25.0
+wheel==0.33.6
+gunicorn==20.0.4
+psycopg2==2.8.4
+celery==4.4.0
+django-health-check==3.12.1
+django-redis==4.11.0
+kombu==4.6.7
+redis==3.4.1
+celery-flower==1.0.1
+flower==0.9.3
+tornado>=4.2.0,<6.0.0
+djangorestframework==3.7.7
+requests==2.18.2
