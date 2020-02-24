@@ -23,6 +23,8 @@ spec:
           value: postgres-service
         - name: REDIS_HOST
           value: redis-service
+        - name: PLACES_TOKEN
+          value: AIzaSyC8e6d1V5puPyhxd3G-JEQ-HB2NVtNXCt8
         {{- include "charts.env" . | nindent 8 }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
