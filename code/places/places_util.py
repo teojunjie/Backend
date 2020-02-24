@@ -69,7 +69,7 @@ def search_nearby_places(
     location: str,
     radius: int,
     category_type: str,
-) -> List[Dict[str, PlaceBasicDict]]:
+) -> List[PlaceBasicDict]:
     '''
     A Nearby Search lets you search for places within a specified area.
     You can refine your search request by supplying keywords or specifying the
@@ -89,7 +89,7 @@ def search_nearby_places(
                 f'key={api_token}'
             )
         )
-        results: List[Dict[str, PlaceBasicDict]] = body.get('results')
+        results: List[PlaceBasicDict] = body.get('results')
         return results
 
     except Exception as e:
@@ -109,6 +109,11 @@ def get_place_details(
     place_id: str,
     fields: str,
 ) -> PlaceDetailsDict:
+    '''
+    A Place Details request returns more comprehensive information about the
+    indicated place such as its complete address, phone number,
+    user rating and reviews.
+    '''
 
     client: PlacesClient = get_places_client()
     api_token: str = client._get_api_token()

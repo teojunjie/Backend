@@ -17,7 +17,7 @@ session.mount('https://', HTTPAdapter(max_retries=3,))
 
 class PlacesClient():
     GOOGLE_PLACES_API = 'place'
-    
+
     def __init__(self):
         self.token = os.environ['PLACES_TOKEN']
         self.base_url = self._get_base_url()
