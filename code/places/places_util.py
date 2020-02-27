@@ -1,7 +1,9 @@
 import logging
 from typing import (
     List,
-    Dict
+    Dict,
+    Union,
+    Any,
 )
 
 from common.types import (
@@ -69,6 +71,7 @@ def search_nearby_places(
     location: str,
     radius: int,
     category_type: str,
+    keyword: str,
 ) -> List[PlaceBasicDict]:
     '''
     A Nearby Search lets you search for places within a specified area.
@@ -86,11 +89,28 @@ def search_nearby_places(
                 f'location={location}&'
                 f'radius={radius}&'
                 f'type={category_type}&'
+                f'keyword={keyword}&'
                 f'key={api_token}'
             )
         )
-        results: List[PlaceBasicDict] = body.get('results')
-        return results
+        results: List[Dict[str, Any]] = body.get('results')
+        places: List[PlaceBasicDict] = []
+        for result in results:
+            place_dict: Dict[str, str] = {
+                'name': result.get('name'),
+                'address': result.get('vicinity'),
+                'place_id': result.get('place_id'),
+            }
+
+            photos: Dict[str, Union[str, int]] = result.get('photos')
+            if photos:
+                place_dict['photo_reference_id'] = (
+                    photos[0].get('photo_reference')
+                )
+
+            places.append(place_dict)
+
+        return places
 
     except Exception as e:
         logger.warning(

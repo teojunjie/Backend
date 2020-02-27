@@ -15,7 +15,7 @@ class Category(models.Model):
         null=True,
         blank=False,
     )
-    
+
 
 class CategoryType(models.Model):
     name = models.CharField(

@@ -41,13 +41,15 @@ class RequestChoicesView(APIView):
         longitude: str = body.get('longitude')
         radius: str = body.get('radius')
         category_type: str = body.get('type')
+        keyword: str = body.get('keyword')
 
         location: str = f'{latitude}, {longitude}'
 
         result: List[PlaceBasicDict] = search_nearby_places(
             location=location,
             radius=radius,
-            category_type=category_type
+            category_type=category_type,
+            keyword=keyword
         )
 
         if len(result) < 3:
