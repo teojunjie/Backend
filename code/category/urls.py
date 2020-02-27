@@ -6,6 +6,7 @@ from category.views import (
     CategoryListView,
     CategoryTypeAddView,
     CategoryTypeListView,
+    CategoryBatchAddView
 )
 
 
@@ -18,6 +19,13 @@ urlpatterns = [
         ),
         CategoryListView.as_view(),
         name='categories_list'
+    ),
+    re_path(
+        r'^{url_prefix}/categories/batch/add?$'.format(
+            url_prefix=EXTERNAL_URL_PREFIX,
+        ),
+        CategoryBatchAddView.as_view(),
+        name='categories_batch_add'
     ),
     re_path(
         r'^{url_prefix}/categories/(?P<name>[^/]+)/add?$'.format(

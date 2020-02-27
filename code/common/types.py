@@ -15,15 +15,46 @@ class PlaceBasicDict(TypedDict):
     name: str
     address: str
     place_id: str
+    photo_reference_id: str
+
+
+class PlaceReviewDict(TypedDict):
+    '''
+    Returns a review fields for the place
+    '''
+    comment: str
+    author_name: str
+    rating: str
+
+
+class PlaceTagDict(TypedDict):
+    title: str
 
 
 class PlaceDetailsDict(TypedDict):
     '''
     Returns the details fields of the place
     '''
-    phone_number: str
-    price_level: str
-    rating: float
-    category_icon_url: str
-    google_maps_url: str
-    website: str
+    dollar_sign: str
+    aggregated_rating: float
+    latitude: str
+    longitude: str
+    reviews: List[PlaceReviewDict]
+    tags: List[PlaceTagDict]
+
+
+class PlaceDataDict(TypedDict):
+    category: str
+    dollar_sign: str
+    title: str
+    location: str
+    latitude: str
+    longitude: str
+    aggregated_rating: str
+
+
+class PlaceFullDict(TypedDict):
+    data: PlaceDataDict
+    reviews: List[PlaceReviewDict]
+    tags: List[PlaceTagDict]
+    

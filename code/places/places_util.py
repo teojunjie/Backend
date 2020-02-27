@@ -9,6 +9,8 @@ from typing import (
 from common.types import (
     PlaceBasicDict,
     PlaceDetailsDict,
+    PlaceReviewDict,
+    PlaceTagDict
 )
 from common.exceptions import PlacesException
 from places.places_client import PlacesClient
@@ -127,13 +129,17 @@ def search_nearby_places(
 
 def get_place_details(
     place_id: str,
-    fields: str,
+    fields: str = 'rating,geometry,price_level,review,type',
 ) -> PlaceDetailsDict:
     '''
     A Place Details request returns more comprehensive information about the
     indicated place such as its complete address, phone number,
     user rating and reviews.
     '''
+
+    logger.info(
+        f'Getting details for place {place_id}'
+    )
 
     client: PlacesClient = get_places_client()
     api_token: str = client._get_api_token()
@@ -147,8 +153,44 @@ def get_place_details(
                 f'key={api_token}'
             )
         )
-        result = body.get('result')
-        return result
+        result: Dict[str, Any] = body.get('result')
+        place_details_dict: PlaceDetailsDict = {
+            "dollar_sign": result.get('price_level'),
+            "aggregated_rating": result.get('rating'),
+            'latitude': result['geometry']['location']['lat'],
+            'longitude': result['geometry']['location']['lng']
+        }
+
+        # Grab the reviews if any
+        reviews: List[Dict[str, str]] = result.get('reviews')
+        reviews_data: List[PlaceReviewDict] = []
+        review_dict: PlaceReviewDict = None
+
+        if reviews:
+            for review in reviews:
+                review_dict = {
+                    'comment': review.get('text'),
+                    'author_name': review.get('author_name'),
+                    'rating': review.get('rating')
+                }
+                reviews_data.append(review_dict)
+
+        # Grab the tags if any
+        tags: List[PlaceTagDict] = result.get('types')
+        tags_data: List[PlaceTagDict] = []
+        tag_dict: PlaceTagDict = None
+
+        if tags:
+            for tag in tags:
+                tag_dict = {
+                    'title': tag
+                }
+                tags_data.append(tag_dict)
+
+        place_details_dict['reviews'] = reviews_data
+        place_details_dict['tags'] = tags_data
+
+        return place_details_dict
 
     except Exception as e:
         logger.warning(

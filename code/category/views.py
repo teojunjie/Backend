@@ -35,10 +35,10 @@ class CategoryAddView(APIView):
         '''
         body: Dict = json.loads(request.body.decode('utf-8'))
 
-        name = kwargs.get('name')
-        image_url = body.get('image_url')
+        name: str = kwargs.get('name')
+        image_url: str = body.get('image_url')
 
-        updates = {
+        updates: Dict[str, str] = {
             'image_url': image_url
         }
 
@@ -49,6 +49,40 @@ class CategoryAddView(APIView):
 
         return Response(
             data=CategorySerializer(category).data,
+            status=status.HTTP_200_OK
+        )
+
+
+class CategoryBatchAddView(APIView):
+    def post(self, request, *args, **kwargs):
+        '''
+        Adds a category with its corresponding image
+
+        Body params:
+        1) categories
+            1) name: name of category
+            2) image_url: the link to the image for the category
+        '''
+        body: Dict = json.loads(request.body.decode('utf-8'))
+
+        categories: List[Dict[str, str]] = body.get('categories')
+        for category_body in categories:
+            print(category_body)
+
+            name: str = category_body.get('name')
+            image_url: str = category_body.get('image_url')
+
+            updates: Dict[str, str] = {
+                'image_url': image_url
+            }
+
+            category, _ = Category.objects.update_or_create(
+                name=name,
+                defaults=updates
+            )
+
+        return Response(
+            "Categories created successfully",
             status=status.HTTP_200_OK
         )
 
@@ -75,17 +109,19 @@ class CategoryTypeAddView(APIView):
         '''
         Adds a category type to the category
 
+        kwargs:
+        1) name: name of category
+
         Body params:
-        1) category_name
-        2) category_type_name
-        3) image_url
+        1) category_types
+            1) category_type_name
+            2) image_url
         '''
 
         body: Dict = json.loads(request.body.decode('utf-8'))
 
         category_name: str = kwargs.get('name')
-        category_type_name: str = body.get('category_type_name')
-        category_image_url: str = body.get('image_url')
+        category_types: List[Dict[str, str]] = body.get('category_types')
 
         try:
             category: Category = Category.objects.get(
@@ -102,15 +138,19 @@ class CategoryTypeAddView(APIView):
                 status.HTTP_404_NOT_FOUND
             )
 
-        updates: Dict[str, str] = {
-            'image_url': category_image_url,
-            'category': category
-        }
+        for category_type in category_types:
+            category_type_name: str = category_type.get('category_type_name')
+            category_image_url: str = category_type.get('image_url')
 
-        CategoryType.objects.update_or_create(
-            name=category_type_name,
-            defaults=updates
-        )
+            updates: Dict[str, str] = {
+                'image_url': category_image_url,
+                'category': category
+            }
+
+            CategoryType.objects.update_or_create(
+                name=category_type_name,
+                defaults=updates
+            )
 
         return Response(
             "Created category data successfully",

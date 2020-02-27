@@ -15,7 +15,11 @@ from places.places_util import (
 )
 from common.types import (
     PlaceBasicDict,
-    PlaceDetailsDict
+    PlaceDetailsDict,
+    PlaceFullDict,
+    PlaceDataDict,
+    PlaceReviewDict,
+    PlaceTagDict,
 )
 
 
@@ -41,21 +45,46 @@ class RequestChoicesView(APIView):
         longitude: str = body.get('longitude')
         radius: str = body.get('radius')
         category_type: str = body.get('type')
+        category: str = body.get('category')
         keyword: str = body.get('keyword')
 
         location: str = f'{latitude}, {longitude}'
 
-        result: List[PlaceBasicDict] = search_nearby_places(
+        places: List[PlaceBasicDict] = search_nearby_places(
             location=location,
             radius=radius,
             category_type=category_type,
             keyword=keyword
         )
 
-        if len(result) < 3:
-            return Response(result, status.HTTP_200_OK)
+        data: List[PlaceFullDict] = []
+        for place in places:
+            place_id: str = place.get('place_id')
+            place_details: PlaceDetailsDict = get_place_details(
+                place_id=place_id
+            )
+            place_tags: List[PlaceTagDict] = place_details.get('tags')
+            place_reviews: List[PlaceReviewDict] = place_details.get('reviews')
+            place_data_dict: PlaceDataDict = {
+                'category': category,
+                'dollar_sign': place_details.get('dollar_sign'),
+                'title': place.get('name'),
+                'location': place.get('address'),
+                'latitude': place_details.get('latitude'),
+                'longitude': place_details.get('longitude'),
+                'aggregated_rating': place_details.get('aggregated_rating')
+            }
+            place_full_dict: PlaceFullDict = {
+                'data': place_data_dict,
+                'reviews': place_reviews,
+                'tags': place_tags
+            }
+            data.append(place_full_dict)
 
-        return Response(result[0:3], status.HTTP_200_OK)
+        if len(data) < 3:
+            return Response(data, status.HTTP_200_OK)
+
+        return Response(data[0:3], status.HTTP_200_OK)
 
 
 class RequestChoicesDetailsView(APIView):
@@ -74,9 +103,16 @@ class RequestChoicesDetailsView(APIView):
         place_id: str = kwargs.get('place_id')
         fields: str = body.get('fields')
 
+        if fields:
+            result: PlaceDetailsDict = get_place_details(
+                place_id=place_id,
+                fields=fields
+            )
+
+            return Response(result, status.HTTP_200_OK)
+
         result: PlaceDetailsDict = get_place_details(
             place_id=place_id,
-            fields=fields
         )
 
         return Response(result, status.HTTP_200_OK)
