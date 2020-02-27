@@ -72,7 +72,8 @@ class RequestChoicesView(APIView):
                 'location': place.get('address'),
                 'latitude': place_details.get('latitude'),
                 'longitude': place_details.get('longitude'),
-                'aggregated_rating': place_details.get('aggregated_rating')
+                'aggregated_rating': place_details.get('aggregated_rating'),
+                "photo_reference_id": place.get('photo_reference_id')
             }
             place_full_dict: PlaceFullDict = {
                 'data': place_data_dict,
