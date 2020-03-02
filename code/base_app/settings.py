@@ -18,7 +18,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'user',
+    'foodcard',
+    'category'
 )
+
+# Shell
+SHELL_PLUS = 'ipython'
 
 MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
@@ -53,14 +60,11 @@ WSGI_APPLICATION = 'base_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kubernetes_django',
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'),
-        'PORT': os.getenv('POSTGRES_PORT', 5432)
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 LANGUAGE_CODE = 'en-us'
 
@@ -73,7 +77,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_URL = 'http://storage.googleapis.com/trippin-bucket/static/'
+STATIC_URL = '/static/'
 
 
 STATIC_ROOT = 'static/'
