@@ -1,4 +1,3 @@
-{{ if eq .Values.global.env "local" }}
 kind: PersistentVolume
 apiVersion: v1
 metadata:
@@ -12,5 +11,4 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: /data/postgres-pv
-{{ end }}
+    path: /usr/local/data/postgres-pv
