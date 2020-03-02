@@ -18,8 +18,8 @@ credentials:
 
 resources: 
   limits:
-    cpu: 500m
+    cpu: 200m
     memory: 800Mi
   requests:
-    cpu: 500m
+    cpu: 200m
     memory: 800Mi

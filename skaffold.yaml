@@ -4,7 +4,7 @@ build:
   tagPolicy:
     gitCommit: {}
   artifacts:
-  - image: trippin
+  - image: us.gcr.io/bubbly-delight-268221/github.com/trippin-developer-week/backend
     context: .
     sync:
       infer:
@@ -12,13 +12,16 @@ build:
 deploy:
   helm:
     releases:
-    - name: skaffold-helm
+    - name: charts
       chartPath: charts
       namespace: default
       #wait: true
       skipBuildDependencies: false 
       values:
-        repository: trippin
-        "global.repository": trippin
-        "trippin.repository": trippin
-  
+        "global.repository": us.gcr.io/bubbly-delight-268221/github.com/trippin-developer-week/backend
+        "trippin.repository": us.gcr.io/bubbly-delight-268221/github.com/trippin-developer-week/backend
+portForward:
+- resourceType: deployment
+  resourceName: charts-trippin
+  port: 8080
+  localPort: 8080
