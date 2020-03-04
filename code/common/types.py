@@ -51,6 +51,7 @@ class PlaceDataDict(TypedDict):
     latitude: str
     longitude: str
     aggregated_rating: str
+    photo_reference_id: str
 
 
 class PlaceFullDict(TypedDict):

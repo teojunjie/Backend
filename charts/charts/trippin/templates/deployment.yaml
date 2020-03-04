@@ -25,15 +25,11 @@ spec:
           value: redis-service
         - name: PLACES_TOKEN
           value: AIzaSyCyOceoFGw8n_lopxTxLuL-OXoatF21jWE
-        {{- include "charts.env" . | nindent 8 }}
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
         ports:
         - name: http
           containerPort: 8080
           protocol: TCP
-        volumeMounts:
-        - name: postgres-volume-mount
-          mountPath: /var/lib/busybox
-    {{- include "charts.volume" . | nindent 6 }}
+
        

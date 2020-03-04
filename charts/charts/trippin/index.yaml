@@ -3,11 +3,11 @@ entries:
   trippin:
   - apiVersion: v1
     appVersion: "1.4"
-    created: "2020-03-01T18:27:17.3630566-08:00"
+    created: "2020-03-02T01:25:51.7442719-08:00"
     description: A Helm chart for Kubernetes
-    digest: 3c2b93422b136323460a610f12b64d4ea6a06d2614a26b44460d6cbd43542bd0
+    digest: 74f183b75c76dcb434cf68c2a8f618b3e707e58bffdc110e8c980bcfb64691a8
     name: trippin
     urls:
     - trippin-0.1.0.tgz
     version: 0.1.0
-generated: "2020-03-01T18:27:17.3630566-08:00"
+generated: "2020-03-02T01:25:51.743296-08:00"
