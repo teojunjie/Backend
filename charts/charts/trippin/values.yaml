@@ -6,6 +6,9 @@ image:
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
+global:
+  env: prod
+  repository: gcr.io/composite-keel-269505/trippin
 
 resources: 
   limits:
