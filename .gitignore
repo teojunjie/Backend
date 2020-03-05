@@ -2,3 +2,4 @@ static/
 trippin_venv/
 .vscode/
 __pycache__
+charts/
