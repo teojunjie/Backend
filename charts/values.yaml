@@ -1,3 +1,0 @@
-global:
-  repository: us.gcr.io/bubbly-delight-268221/github.com/trippin-developer-week/backend:master628b38f
-  env: prod
