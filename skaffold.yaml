@@ -4,7 +4,7 @@ build:
   tagPolicy:
     gitCommit: {}
   artifacts:
-  - image: us.gcr.io/bubbly-delight-268221/github.com/trippin-developer-week/backend
+  - image: trippin/auth
     context: .
     sync:
       infer:
@@ -12,16 +12,19 @@ build:
 deploy:
   helm:
     releases:
-    - name: charts
-      chartPath: charts
+    - name: auth
+      chartPath: charts/auth
+      valuesFiles:
+      - local-values.yaml  
       namespace: default
       #wait: true
       skipBuildDependencies: false 
       values:
-        "global.repository": us.gcr.io/bubbly-delight-268221/github.com/trippin-developer-week/backend
-        "trippin.repository": us.gcr.io/bubbly-delight-268221/github.com/trippin-developer-week/backend
+        global.imageName: trippin/auth
+      setValues:
+        global.image.pullPolicy: Never
 portForward:
 - resourceType: deployment
-  resourceName: charts-trippin
+  resourceName: auth-chart
   port: 8080
   localPort: 8080
