@@ -1,5 +1,5 @@
 #!/bin/bash -e
-echo 'setting up static files...'
+echo 'setting up static files....'
 python manage.py collectstatic
 echo 'making migrations...'
 python manage.py makemigrations
