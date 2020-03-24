@@ -13,14 +13,15 @@ deploy:
   helm:
     releases:
     - name: auth
-      chartPath: charts/auth
+      chartPath: ../charts/auth
       valuesFiles:
       - local-values.yaml  
       namespace: default
       skipBuildDependencies: false 
       values:
-        auth.image.epository: trippin/auth
+        "auth.image.repository": trippin/auth
       setValues:
+        # "auth.image.repository": trippin/auth
         global.image.pullPolicy: Never
 portForward:
 - resourceType: deployment
