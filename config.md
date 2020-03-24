@@ -17,6 +17,7 @@ kubectl create clusterrolebinding tiller \
   --clusterrole=cluster-admin \
   --serviceaccount=kube-system:tiller
 helm init --service-account tiller 
+helm init --upgrade --service-account tiller
 ```
 
 run this in the directory where skaffold.yaml is in

@@ -1,5 +1,5 @@
 static/
 trippin_venv/
 .vscode/
-trippin/
 __pycache__
+charts/

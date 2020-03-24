@@ -1,0 +1,8 @@
+global:
+  env: local
+  codePath: "D:/Jun Jie Data/auth/backend/"
+  image:
+    repository: gcr.io/composite-keel-269505/auth
+    tag: latest
+  postgresHost: postgres-service
+  postgresDB: kubernetes_django

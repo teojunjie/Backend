@@ -1,0 +1,2 @@
+class PlacesException(Exception):
+    pass
