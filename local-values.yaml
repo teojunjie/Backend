@@ -1,8 +1,24 @@
+# global:
+#   env: local
+#   codePath: "D:/Jun Jie Data/auth/backend/"
+#   image:
+#     repository: gcr.io/composite-keel-269505/auth
+#     tag: latest
+#   postgresHost: postgres-service
+#   postgresDB: kubernetes_django
+
 global:
   env: local
-  codePath: "D:/Jun Jie Data/auth/backend/"
-  image:
-    repository: gcr.io/composite-keel-269505/auth
-    tag: latest
-  postgresHost: postgres-service
-  postgresDB: kubernetes_django
+  # TODO: move global.postgres.(volume, db, pvc) out of global if determined 
+  # trippin depl does not reference these values
+  postgres:
+    volume: postgres-volume-mount
+    secret: postgres-credentials
+    host: postgres-service
+    db: kubernetes_django
+    pvc: postgres-pvc
+  redis:
+    host: redis-service
+  gcpApi:
+    secret: gcp-api-credentials
+

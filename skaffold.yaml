@@ -17,10 +17,9 @@ deploy:
       valuesFiles:
       - local-values.yaml  
       namespace: default
-      #wait: true
       skipBuildDependencies: false 
       values:
-        global.imageName: trippin/auth
+        auth.image.epository: trippin/auth
       setValues:
         global.image.pullPolicy: Never
 portForward:
